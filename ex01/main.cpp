@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:26:50 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/19 23:44:00 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/08/20 10:32:04 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int main(int argc, char const *argv[])
 		}
 
 		//* deleting objects //
-		if (N == 0)
-			delete horde;
+		if (N != 0)
+			delete[] horde;
 	}
 	else
 	{

@@ -6,9 +6,27 @@
 #    By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 17:11:58 by earendil          #+#    #+#              #
-#    Updated: 2022/08/17 11:25:34 by mmarinel         ###   ########.fr        #
+#    Updated: 2022/08/20 10:22:57 by mmarinel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+RESET		:= "\033[0m"
+BLACK		:= "\033[30m"
+RED			:= "\033[31m"
+GREEN		:= "\033[32m"
+YELLOW		:= "\033[33m"
+BLUE		:= "\033[34m"
+MAGENTA		:= "\033[35m"
+CYAN		:= "\033[36m"
+WHITE		:= "\033[37m"
+BOLDBLACK	:= "\033[1m\033[30m"
+BOLDRED		:= "\033[1m\033[31m"
+BOLDGREEN	:= "\033[1m\033[32m"
+BOLDYELLOW	:= "\033[1m\033[33m"
+BOLDBLUE	:= "\033[1m\033[34m"
+BOLDMAGENTA	:= "\033[1m\033[35m"
+BOLDCYAN	:= "\033[1m\033[36m"
+BOLDWHITE	:= "\033[1m\033[37m"
 
 all:
 	@echo "Making all exercises\n"
@@ -35,7 +53,7 @@ re: fclean all
 		clear; \
 		make --no-print-directory -C $$DIR run; \
 		echo "\n"; \
-		read -p "Press any key to continue"; \
+		read -p "Press Enter to continue"; \
 	done;
 	@echo "\n"
-	@echo Run completed!
+	@echo $(BOLDGREEN) Run completed! $(RESET)

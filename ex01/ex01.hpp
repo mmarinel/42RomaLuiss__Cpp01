@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 23:08:58 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/19 23:20:05 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/08/20 10:29:49 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 #include "Zombie.hpp"
 
-Zombie	*zombieHorde( unsigned int N, std::string name );
+Zombie	*zombieHorde( int N, std::string name );
 
 #endif /* EX01_H */
