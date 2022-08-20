@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/16 17:11:58 by earendil          #+#    #+#              #
-#    Updated: 2022/08/20 10:57:47 by mmarinel         ###   ########.fr        #
+#    Created: 2022/08/16 17:34:54 by earendil          #+#    #+#              #
+#    Updated: 2022/08/20 10:54:25 by mmarinel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,34 +28,50 @@ BOLDMAGENTA	:= "\033[1m\033[35m"
 BOLDCYAN	:= "\033[1m\033[36m"
 BOLDWHITE	:= "\033[1m\033[37m"
 
+CC:= @clang++
+CFLAGS:= -std=c++98 -Wall -Werror -Wextra
+
+NAME := thisisbrain
+OBJS_DIR:= bin
+OBJS:= $(addprefix $(OBJS_DIR)/, $(shell find . -name "*.cpp" -print | sed 's/\.cpp/\.o/g' | sed 's/\.\///'))
+INCLUDES:= $(shell find . -name "*.hpp" -print)
+
+RMF:= @/bin/rm -rf
+MKD:= @mkdir -p
+MAKE_REC:= @make --no-print-directory
+
+exercise: .BUILD
+
+run: .RUN
+	@echo $(CYAN) "\nTests running\n" $(RESET)
+	@./$(NAME)
+
 all:
-	@echo "Making all exercises\n"
-	@for DIR in $$(find . -print | grep "Makefile" | sed 's/Makefile//g' | grep ex); do \
-		make --no-print-directory -C $$DIR exercise; \
-	done;
-	@echo Exercises done!
+	@$(MAKE_REC) -C ..
 
-run:
-	@make --no-print-directory -si .RUN
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@printf "\033[0;35mProject done!\n\n\033[0;37m"
 
-fclean:
-	@echo "Destroying all exercises\n"
-	@for DIR in $$(find . -print | grep "Makefile" | sed 's/Makefile//g' | grep ex); do \
-		make --no-print-directory -C $$DIR fclean; \
-	done;
-	@echo Exercises destroyed!
+$(shell echo $(OBJS_DIR))/%.o: %.cpp $(INCLUDES)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+fclean: clean
+	@printf "removing program executable $(NAME)\n\033[0;37m"
+	$(RMF) -f $(NAME)
+	@printf "\033[0;35mExecutable removed!\n\n\033[0;37m"
+
+clean:
+	@printf "removing Object files $(OBJS)\n\033[0;37m"
+	$(RMF) $(OBJS_DIR)
+	@printf "\033[0;35mObject files removed!\n\n\033[0;37m"
 
 re: fclean all
 
+.BUILD:
+	$(MKD) $(OBJS_DIR)
+	@printf "\e[1;33mMaking exercise $(NAME) \n\033[0;37m"
+	@$(MAKE_REC) $(NAME)
+
 .RUN:
-	@echo "Running all exercises\n"
-	@for DIR in $$(find . -print | grep "Makefile" | sed 's/Makefile//g' | grep ex); do \
-		clear; \
-		make --no-print-directory -C $$DIR run; \
-		echo "\n"; \
-		echo $(BOLDWHITE); \
-		read -p "Press Enter to continue"; \
-		echo $(RESET); \
-	done;
-	@echo "\n"
-	@echo $(BOLDGREEN) Run completed! $(RESET)
+	$(MAKE_REC) -i exercise
