@@ -1,0 +1,3 @@
+leggere line per line non va bene se '\n' fa parte della stringa to_find
+leggere tot caratteri non va bene perche non so mai se la sequenza inizia alla fine
+leggere con un delimitatore che non compare nel to_find non va comunque bene se nel to_find compaiono tutti i caratteri
