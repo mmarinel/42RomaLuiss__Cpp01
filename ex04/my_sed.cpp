@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:39:06 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/21 10:47:55 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/08/21 11:55:44 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ bool	my_sed(std::string filename, std::string to_find, std::string replacement)
 
 	if (false == myFile.is_open() || false == output.is_open())
 	{
-		std::cout << RED << "Error: could not open file" << RESET << std::endl;
+		std::cout << BOLDRED << "Error: could not open file" << RESET << std::endl;
 		return (false);
 	}
 	else
 	{
 		substitute_all(to_find, replacement, myFile, output);
-		if (myFile.badbit || output.badbit)
+		if (myFile.bad() || output.bad())
 		{
-			std::cout << RED << "Error: file corrupted during I/O operation" << std::endl;
+			std::cout << BOLDRED << "Error: file corrupted during I/O operation" << std::endl;
 			return (false);
 		}
 		else
@@ -58,13 +58,15 @@ static void	substitute_all(std::string to_find, std::string replacement,
 {
 	std::string	buffer;
 	char		*line;
-
+	
 	buffer = std::string("");
-	while (myFile.goodbit && output.goodbit)
+	while (myFile.good() && output.good())
 	{
+		line = new char(to_find.length());
+		memcpy(line, "\0", to_find.length());
 		myFile.read(line, to_find.length() - buffer.length());
 		buffer += line;
-		if (myFile.goodbit)
+		if (myFile.good())
 		{
 			replace_line(buffer, to_find, replacement, output);
 		}
@@ -72,6 +74,7 @@ static void	substitute_all(std::string to_find, std::string replacement,
 		{
 			output << line;
 		}
+		delete line;
 	}
 }
 
@@ -98,7 +101,7 @@ static void	shift_buffer(std::string &buffer, std::string to_find,
 {
 	size_t		pos;
 
-	pos = str_last_occurrence(buffer, to_find[0])
+	pos = str_last_occurrence(buffer, to_find[0]);
 	if (find_success(pos)
 		&& buffer.length() - pos < to_find.length())
 	{

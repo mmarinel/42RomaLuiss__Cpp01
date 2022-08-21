@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.cpp                                          :+:      :+:    :+:   */
+/*   tests.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 10:46:52 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/21 11:50:45 by mmarinel         ###   ########.fr       */
+/*   Created: 2022/08/21 10:49:17 by mmarinel          #+#    #+#             */
+/*   Updated: 2022/08/21 11:00:01 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex04.hpp"
+#include <iostream>
 
-size_t	str_last_occurrence(std::string str, char to_find)
+int main(int argc, char const *argv[])
 {
-	size_t	pos;
-	size_t	new_pos;
-
-	pos = std::string::npos;
-	while (true)
+	if (argc == 4)
 	{
-		new_pos = str.find(to_find, pos == std::string::npos ? 0 : pos + 1);
-		if (new_pos == std::string::npos)
-			break ;
-		else
-			pos = new_pos;
+		my_sed(std::string(argv[1]), std::string(argv[2]), std::string(argv[3]));
+		std::cout << "Test: " << GREEN << "<<Done>>" << RESET << std::endl;
 	}
-	return (pos);
-}
-
-bool	find_success(size_t index)
-{
-	return (index != std::string::npos);
+	else
+	{
+		std::cout << "Test: " << BOLDRED << "Error: Wrong number of arguments" << RESET << std::endl;
+	}
+	return 0;
 }
