@@ -6,22 +6,19 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:39:06 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/20 19:33:58 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/08/21 10:47:55 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex04.hpp"
 
-static void	open_fail( void );
-static void	read_write_fail(std::ifstream &myFile, std::ofstream &output);
 static void	substitute_all(std::string to_find, std::string replacement,
 				std::ifstream &myFile, std::ofstream &output);
+static void replace_line(std::string &buffer,
+				std::string to_find, std::string replacement,
+				std::ofstream &output);
 static void	shift_buffer(std::string &buffer, std::string to_find,
 				std::ofstream &output);
-static void replace_line(size_t new_pos,
-				std::string &buffer, std::string replacement,
-				std::ofstream &output);
-static bool	find_success(size_t index);
 //* end of static declarations
 
 /**
@@ -40,94 +37,77 @@ bool	my_sed(std::string filename, std::string to_find, std::string replacement)
 
 	if (false == myFile.is_open() || false == output.is_open())
 	{
-		open_fail();
+		std::cout << RED << "Error: could not open file" << RESET << std::endl;
 		return (false);
 	}
 	else
 	{
 		substitute_all(to_find, replacement, myFile, output);
-		if (myFile.bad())
+		if (myFile.badbit || output.badbit)
 		{
-			read_write_fail(myFile, output);
+			std::cout << RED << "Error: file corrupted during I/O operation" << std::endl;
 			return (false);
 		}
+		else
+			return (true);
 	}
-	return (true);
 }
 
 static void	substitute_all(std::string to_find, std::string replacement,
 				std::ifstream &myFile, std::ofstream &output)
 {
 	std::string	buffer;
-	std::string	pre;
-	size_t		new_pos;
 	char		*line;
 
 	buffer = std::string("");
-	while (myFile.read(line, to_find.length()))
+	while (myFile.goodbit && output.goodbit)
 	{
-		buffer += std::string(line);
-		new_pos = buffer.find(to_find);
-		if (false == find_success(new_pos))
+		myFile.read(line, to_find.length() - buffer.length());
+		buffer += line;
+		if (myFile.goodbit)
 		{
-			shift_buffer(buffer, to_find, output);
+			replace_line(buffer, to_find, replacement, output);
 		}
 		else
 		{
-			replace_line(new_pos, buffer, replacement, output);
+			output << line;
 		}
 	}
+}
 
+static void replace_line(std::string &buffer,
+				std::string to_find, std::string replacement,
+				std::ofstream &output)
+{
+	size_t	pos;
+
+	pos = buffer.find(to_find);
+	if (find_success(pos))
+	{
+		output << replacement;
+		buffer.erase(0);
+	}
+	else
+	{
+		shift_buffer(buffer, to_find, output);
+	}
 }
 
 static void	shift_buffer(std::string &buffer, std::string to_find,
 				std::ofstream &output)
 {
-	size_t		new_pos;
+	size_t		pos;
 
-	new_pos = buffer.find(to_find[0]);
-	if (false == find_success(new_pos))
+	pos = str_last_occurrence(buffer, to_find[0])
+	if (find_success(pos)
+		&& buffer.length() - pos < to_find.length())
+	{
+		output << buffer.substr(0, pos);
+		buffer = buffer.substr(pos);
+	}
+	else
 	{
 		output << buffer;
 		buffer.erase(0);
 	}
-	else
-	{
-		output << buffer.substr(0, new_pos);
-		buffer = buffer.substr(new_pos);
-	}
-}
-
-static void replace_line(size_t new_pos,
-				std::string &buffer, std::string replacement,
-				std::ofstream &output)
-{
-	if (new_pos == 0)
-		output << replacement;
-	else
-		output << buffer.substr(0, new_pos) << replacement;
-	new_pos = new_pos + replacement.length();
-	if (new_pos > buffer.length() - 1)
-		buffer.erase(0);
-	else
-		buffer = buffer.substr(new_pos);
-}
-
-static void	open_fail( void )
-{
-	//* we don't write to cerr because 'General rules' say write to cout unless explicitly told otherwise'
-	std::cout << RED << "Error: could not open file" << RESET << std::endl;
-}
-
-static void read_write_fail(std::ifstream &myFile, std::ofstream &output)
-{
-	myFile.close();
-	output.close();
-	//* we don't write to cerr because 'General rules' say write to cout unless explicitly told otherwise'
-	std::cout << RED << "Error: write/read operation failed" << RESET << std::endl;
-}
-
-static bool	find_success(size_t index)
-{
-	return (index != std::string::npos);
 }
