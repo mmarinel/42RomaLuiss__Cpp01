@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 15:39:06 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/21 11:55:44 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/02 18:41:13 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static void	substitute_all(std::string to_find, std::string replacement,
 	buffer = std::string("");
 	while (myFile.good() && output.good())
 	{
-		line = new char(to_find.length());
-		memcpy(line, "\0", to_find.length());
+		line = new char[to_find.length()];
+		memset(line, '\000', to_find.length());
 		myFile.read(line, to_find.length() - buffer.length());
 		buffer += line;
 		if (myFile.good())
@@ -74,7 +74,7 @@ static void	substitute_all(std::string to_find, std::string replacement,
 		{
 			output << line;
 		}
-		delete line;
+		delete[] line;
 	}
 }
 
