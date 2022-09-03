@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 11:36:02 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/20 14:59:15 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:05:25 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,5 @@ HumanA::HumanA( const char *name, Weapon &weapon ) : weapon(weapon)
 
 HumanA::~HumanA()
 {
-	std::cout << RED << "a HumanB" << " is destroyed" << RESET << std::endl;
+	std::cout << RED << "a HumanA" << " is destroyed" << RESET << std::endl;
 }
