@@ -6,23 +6,24 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:26:50 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/19 22:42:32 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/03 11:30:44 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
-#include <iostream>
+#include "ex00.hpp"
 
 int main( void )
 {
-	Zombie	gorg("gorg");
 	Zombie	*frolp;
 	Zombie	*sdrom;
 
-	gorg.announce();
-	frolp = gorg.newZombie("frolp");
-	sdrom = gorg.randomChump("sdrom");
+	randomChump("Duffthug");
+	randomChump("Ratnob");
+	frolp = newZombie("frolp");
 	frolp->announce();
+	sdrom = newZombie("sdrom");
+	sdrom->announce();
+	randomChump("Grishnákh");
 	delete frolp;
 	delete sdrom;
 	return (0);

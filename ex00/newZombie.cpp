@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*   newZombie.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/19 19:52:03 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/03 11:12:53 by mmarinel         ###   ########.fr       */
+/*   Created: 2022/09/03 11:10:17 by mmarinel          #+#    #+#             */
+/*   Updated: 2022/09/03 11:22:11 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
-#include "../colors.hpp"
-#include <iostream>
 
-void	Zombie::announce( void )
+Zombie	*newZombie( std::string name )
 {
-	std::cout << this->name << ": " << "BraiiiiiiinnnzzzZ..." << std::endl;
-}
+	Zombie	*new_zombie;
 
-Zombie::Zombie( std::string name )
-{
-	this->name.assign(name);
-}
-
-Zombie::~Zombie()
-{
-	std::cout << this->name << ": " << RED "killed" RESET << std::endl;
+	new_zombie = new Zombie(name);
+	return (new_zombie);
 }

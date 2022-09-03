@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 19:49:01 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/08/19 22:41:41 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/03 11:22:19 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ class Zombie
 private:
 	std::string	name;
 public:
-	Zombie	*newZombie( std::string name );
-	Zombie	*randomChump( std::string name );
 	void	announce( void );
 			Zombie( std::string name );
 			~Zombie();
